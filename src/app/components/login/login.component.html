@@ -1,5 +1,7 @@
-<form action="" #loginForm>
-    <input type="email">
-    <input type="password">
-    <button>Login</button>
+
+
+<form (ngSubmit)="login()" [formGroup]="loginForm">
+    <input type="username" formControlName="username" required="true">
+    <input type="password" formControlName="password" required="true">
+    <button type="submit">Login</button>
 </form>
