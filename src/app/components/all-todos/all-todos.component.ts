@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
 import { NgFor } from '@angular/common';
 
@@ -20,14 +20,22 @@ export class AllTodosComponent implements OnInit {
   constructor( private http: HttpClient){}
 
   async ngOnInit(): Promise<void> {
-    this.todos = await this.loadTodos(); 
-    console.log(this.todos);
-
+    try{
+      this.todos = await this.loadTodos(); 
+      console.log(this.todos);
+    }
+    catch(e){
+      
+    } 
   }
 
   loadTodos(){
     const url = environment.apiUrl + '/todos/';
-    return lastValueFrom(this.http.get(url));
+    let headers =  new HttpHeaders(); 
+    headers = headers.set('Authorization' , 'Token ' + localStorage.getItem('token')); 
+    return lastValueFrom(this.http.get(url , {
+        headers:headers
+    }));
   }
 
 }
